@@ -27,25 +27,32 @@ function validateExpenseAmount(expenseAmount) {
 function validateFrequency(expenseCategory) {
     const validOptions = ["groceries", "business", "restaurants"];
     if (!validOptions.includes(expenseCategory)) {
-        return "Please select a valid frequency.";
+        return "Please select a valid expenseCategory.";
     }
     return "";
 }
 
 // Main Form Validation Function
 function validateForm() {
-    const sourceInput = document.getElementById("incomeSourceName");
-    const amountInput = document.getElementById("amount");
-    const frequencyInput = document.getElementById("frequency");
+    const expenseName = document.getElementById("expenseName");
+    const expenseDate = document.getElementById("expenseDate");
+    const expenseAmount = document.getElementById("expenseAmount");
+    const expenseCategory = document.getElementById("expenseCategory");
+    const payment = document.getElementById("payment");
 
-    const sourceError = document.getElementById("incomeSourceNameError");
-    const amountError = document.getElementById("amountError");
-    const frequencyError = document.getElementById("frequencyError");
+    const expenseNameError = document.getElementById("expenseNameError");
+    const expenseDateError = document.getElementById("expenseDateError");
+    const expenseAmountError = document.getElementById("expenseAmountError");
+    const expenseCategoryError = document.getElementById("expenseCategoryError");
+    const paymentError = document.getElementById("paymentError");
+
 
     // Clear previous error messages
-    sourceError.textContent = "";
-    amountError.textContent = "";
-    frequencyError.textContent = "";
+    expenseNameError.textContent = "";
+    expenseDateError.textContent = "";
+    expenseAmountError.textContent = "";
+    expenseCategoryError.textContent = "";
+    paymentError.textContent = "";
 
     let isValid = true;
 
