@@ -75,12 +75,8 @@ function validateForm() {
 
     if (isValid) {
         console.log("Form is valid! Submitting...");
-        // Reset the form after submission
-        document.getElementById("incomeForm").reset();
+        document.getElementById("incomeForm").submit();
     }
 }
 
-// Listen for blur event on Amount field to auto-correct decimal places
-document.getElementById("amount").addEventListener("blur", function () {
-    validateAmount(this);
-});
+

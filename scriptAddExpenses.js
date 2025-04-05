@@ -3,7 +3,7 @@ document.getElementById("addExpenses").addEventListener("submit", function (e) {
     validateForm();
 });
 
-
+// Validate Expense Name (Place of Expense)
 function validateExpenses(expenseName) {
     if (!expenseName) {
         return "Expense Name is required.";
@@ -14,30 +14,32 @@ function validateExpenses(expenseName) {
     return "";
 }
 
+// Validate Expense Amount (between 0 and 50000)
+function validateExpenseAmount(amountInput) {
+    let amount = parseFloat(amountInput.value.trim());
 
-function validateExpenseAmount(expenseAmount) {
-
-    if (expenseAmount > 50000 || expenseAmount <= 0) {
-        return "Amount must be a number greater than 0 and less than 50000.";
+    if (!amount || amount <= 0 || amount > 50000) {
+        return "Amount must be greater than 0 and less than 50000.";
     }
+
+    amountInput.value = amount.toFixed(2);
     return "";
 }
 
-
-function validateFrequency(expenseCategory) {
-    const validOptions = ["groceries", "business", "restaurants"];
-    if (!validOptions.includes(expenseCategory)) {
-        return "Please select a valid expenseCategory.";
+// Validate Mode of Payment (dropdown)
+function validatePayment(paymentValue) {
+    const validOptions = ["Credit card", "Debit card", "Cash"];
+    if (!validOptions.includes(paymentValue)) {
+        return "Please select a valid payment method.";
     }
     return "";
 }
 
 // Main Form Validation Function
 function validateForm() {
-    const expenseName = document.getElementById("expenseName");
+    const expenseName = document.getElementById("expenses");
     const expenseDate = document.getElementById("expenseDate");
     const expenseAmount = document.getElementById("expenseAmount");
-    const expenseCategory = document.getElementById("expenseCategory");
     const payment = document.getElementById("payment");
 
     const expenseNameError = document.getElementById("expenseNameError");
@@ -45,7 +47,6 @@ function validateForm() {
     const expenseAmountError = document.getElementById("expenseAmountError");
     const expenseCategoryError = document.getElementById("expenseCategoryError");
     const paymentError = document.getElementById("paymentError");
-
 
     // Clear previous error messages
     expenseNameError.textContent = "";
@@ -56,34 +57,39 @@ function validateForm() {
 
     let isValid = true;
 
-    // Validate each field
-    const sourceValidationMessage = validateSourceName(sourceInput.value.trim());
-    const amountValidationMessage = validateAmount(amountInput);
-    const frequencyValidationMessage = validateFrequency(frequencyInput.value);
+    const nameValidationMessage = validateExpenses(expenseName.value.trim());
+    const dateValidationMessage = validateExpenseDate(expenseDate.value);
+    const amountValidationMessage = validateExpenseAmount(expenseAmount);
+    const categoryValidationMessage = validateExpenseCategory();
+    const paymentValidationMessage = validatePayment(payment.value);
 
-    if (sourceValidationMessage) {
-        sourceError.textContent = sourceValidationMessage;
+    if (nameValidationMessage) {
+        expenseNameError.textContent = nameValidationMessage;
+        isValid = false;
+    }
+
+    if (dateValidationMessage) {
+        expenseDateError.textContent = dateValidationMessage;
         isValid = false;
     }
 
     if (amountValidationMessage) {
-        amountError.textContent = amountValidationMessage;
+        expenseAmountError.textContent = amountValidationMessage;
         isValid = false;
     }
 
-    if (frequencyValidationMessage) {
-        frequencyError.textContent = frequencyValidationMessage;
+    if (categoryValidationMessage) {
+        expenseCategoryError.textContent = categoryValidationMessage;
+        isValid = false;
+    }
+
+    if (paymentValidationMessage) {
+        paymentError.textContent = paymentValidationMessage;
         isValid = false;
     }
 
     if (isValid) {
         console.log("Form is valid! Submitting...");
-        // Reset the form after submission
-        document.getElementById("incomeForm").reset();
+        document.getElementById("addExpenses").submit();
     }
 }
-
-// Listen for blur event on Amount field to auto-correct decimal places
-document.getElementById("amount").addEventListener("blur", function () {
-    validateAmount(this);
-});

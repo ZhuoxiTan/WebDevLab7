@@ -1,15 +1,15 @@
-document.getElementById("incomePage").addEventListener("submit", function (e) {
+document.getElementById("addCheckForm").addEventListener("submit", function (e) {
     e.preventDefault(); // Prevent form submission
     validateForm();
 });
 
-// Validate Source Name
-function validateSourceName(name) {
+// Validate Name of Check
+function validateNameCheck(name) {
     if (!name) {
-        return "Source name is required.";
+        return "Name of the check is required.";
     }
-    if (name.length < 3) {
-        return "Source name must be at least 3 characters long.";
+    if (name.length <= 5) {
+        return "Name must be more than 5 characters.";
     }
     return "";
 }
@@ -22,65 +22,84 @@ function validateAmount(amountInput) {
         return "Amount must be a number greater than 0.";
     }
 
-    // Round amount to 2 decimal places and update input field
     amountInput.value = amount.toFixed(2);
     return "";
 }
 
-// Validate Frequency
-function validateFrequency(freq) {
-    const validOptions = ["one-time", "monthly", "bi-weekly", "yearly"];
-    if (!validOptions.includes(freq)) {
-        return "Please select a valid frequency.";
+// Validate Bank Name
+function validateBank(bank) {
+    if (!bank) {
+        return "Bank name is required.";
+    }
+    if (bank.length < 5) {
+        return "Bank name must be at least 5 characters.";
+    }
+    return "";
+}
+
+// Validate Account Number
+function validateAccountNumber(account) {
+    if (!/\d{10}/.test(account)) {
+        return "Account number must be a 10-digit number.";
     }
     return "";
 }
 
 // Main Form Validation Function
 function validateForm() {
-    const sourceInput = document.getElementById("incomeSourceName");
+    const nameInput = document.getElementById("nameCheck");
+    const dateInput = document.getElementById("date");
     const amountInput = document.getElementById("amount");
-    const frequencyInput = document.getElementById("frequency");
+    const bankInput = document.getElementById("bank");
+    const accountInput = document.getElementById("accountNumber");
 
-    const sourceError = document.getElementById("incomeSourceNameError");
+    const nameError = document.getElementById("nameCheckError");
+    const dateError = document.getElementById("dateError");
     const amountError = document.getElementById("amountError");
-    const frequencyError = document.getElementById("frequencyError");
+    const bankError = document.getElementById("bankError");
+    const accountError = document.getElementById("accountNumberError");
 
-    // Clear previous error messages
-    sourceError.textContent = "";
+    nameError.textContent = "";
+    dateError.textContent = "";
     amountError.textContent = "";
-    frequencyError.textContent = "";
+    bankError.textContent = "";
+    accountError.textContent = "";
 
     let isValid = true;
 
-    // Validate each field
-    const sourceValidationMessage = validateSourceName(sourceInput.value.trim());
-    const amountValidationMessage = validateAmount(amountInput);
-    const frequencyValidationMessage = validateFrequency(frequencyInput.value);
+    const nameValidation = validateNameCheck(nameInput.value.trim());
+    const dateValidation = validateDate(dateInput.value);
+    const amountValidation = validateAmount(amountInput);
+    const bankValidation = validateBank(bankInput.value.trim());
+    const accountValidation = validateAccountNumber(accountInput.value.trim());
 
-    if (sourceValidationMessage) {
-        sourceError.textContent = sourceValidationMessage;
+    if (nameValidation) {
+        nameError.textContent = nameValidation;
         isValid = false;
     }
 
-    if (amountValidationMessage) {
-        amountError.textContent = amountValidationMessage;
+    if (dateValidation) {
+        dateError.textContent = dateValidation;
         isValid = false;
     }
 
-    if (frequencyValidationMessage) {
-        frequencyError.textContent = frequencyValidationMessage;
+    if (amountValidation) {
+        amountError.textContent = amountValidation;
+        isValid = false;
+    }
+
+    if (bankValidation) {
+        bankError.textContent = bankValidation;
+        isValid = false;
+    }
+
+    if (accountValidation) {
+        accountError.textContent = accountValidation;
         isValid = false;
     }
 
     if (isValid) {
         console.log("Form is valid! Submitting...");
-        // Reset the form after submission
-        document.getElementById("incomeForm").reset();
+        document.getElementById("addCheckForm").submit();
     }
 }
-
-// Listen for blur event on Amount field to auto-correct decimal places
-document.getElementById("amount").addEventListener("blur", function () {
-    validateAmount(this);
-});
