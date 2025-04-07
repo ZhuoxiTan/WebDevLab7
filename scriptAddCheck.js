@@ -48,19 +48,16 @@ function validateAccountNumber(account) {
 // Main Form Validation Function
 function validateForm() {
     const nameInput = document.getElementById("nameCheck");
-    const dateInput = document.getElementById("date");
     const amountInput = document.getElementById("amount");
     const bankInput = document.getElementById("bank");
     const accountInput = document.getElementById("accountNumber");
 
     const nameError = document.getElementById("nameCheckError");
-    const dateError = document.getElementById("dateError");
     const amountError = document.getElementById("amountError");
     const bankError = document.getElementById("bankError");
     const accountError = document.getElementById("accountNumberError");
 
     nameError.textContent = "";
-    dateError.textContent = "";
     amountError.textContent = "";
     bankError.textContent = "";
     accountError.textContent = "";
@@ -68,18 +65,12 @@ function validateForm() {
     let isValid = true;
 
     const nameValidation = validateNameCheck(nameInput.value.trim());
-    const dateValidation = validateDate(dateInput.value);
     const amountValidation = validateAmount(amountInput);
     const bankValidation = validateBank(bankInput.value.trim());
     const accountValidation = validateAccountNumber(accountInput.value.trim());
 
     if (nameValidation) {
         nameError.textContent = nameValidation;
-        isValid = false;
-    }
-
-    if (dateValidation) {
-        dateError.textContent = dateValidation;
         isValid = false;
     }
 
