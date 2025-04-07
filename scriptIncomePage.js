@@ -1,6 +1,7 @@
 document.getElementById("incomePage").addEventListener("submit", function (e) {
     e.preventDefault(); // Prevent form submission
     validateForm();
+    makeRequest();
 });
 
 // Validate Source Name
@@ -75,8 +76,28 @@ function validateForm() {
 
     if (isValid) {
         console.log("Form is valid! Submitting...");
-        document.getElementById("incomeForm").submit();
+        document.getElementById("incomePage").submit();
     }
+}
+
+function makeRequest() {
+    const sourceInput = document.getElementById("incomeSourceName");
+    const amountInput = document.getElementById("amount");
+    const frequencyInput = document.getElementById("frequency");
+    
+    let url = "https://webhook-test.com/9d1b14540b8a8bc0185bbda91b74082b";
+    let data = new FormData();
+    data.append("sourceInput", sourceInput.value); // repeat for as many params as necessary
+    data.append("amountInput", amountInput.value);
+    data.append("frequencyInput", frequencyInput.value);
+
+    fetch(url, {method: "POST", body: data})
+    .then(statusCheck)
+    .then(resp => resp.json()) // or res.text() based on response
+    .then(handleResponse)
+    .catch(handleError);
+
+
 }
 
 

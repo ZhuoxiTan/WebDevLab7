@@ -76,3 +76,4 @@ function validateForm() {
         document.getElementById("addExpenses").submit();
     }
 }
+
